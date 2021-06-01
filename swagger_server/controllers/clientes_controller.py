@@ -1,6 +1,7 @@
 import connexion
+import six
 
-from swagger_server.models.factura import Factura  # noqa: E501
+from swagger_server.models.cliente import Cliente  # noqa: E501
 from swagger_server.models.http_problem import HTTPProblem  # noqa: E501
 from swagger_server.models.inline_response200 import InlineResponse200  # noqa: E501
 from swagger_server import util
@@ -165,5 +166,7 @@ def upm_aos_clientes_put(body, if_match, id_cliente):  # noqa: E501
     """
     if connexion.request.is_json:
         body = object.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+    return make_response(
+        "{body} Cliente modificado exitosamente!".format(body=body), 201
+    )
 
