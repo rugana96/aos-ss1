@@ -13,7 +13,7 @@ example = [
         'nif/nie': '28536492-F',
         'nombre': 'José Luis',
         'apellidos': 'Sánchez',
-        'telefono': 625334828,
+        'telefono': '625334828',
         'domicilio': 'C/Concordia, 5, 7ºa',
         'email': 'jlsanchez@123.com',
         'links': [
@@ -32,7 +32,7 @@ example = [
         'nif/nie': 'X-3310872-V',
         'nombre': 'Ming',
         'apellidos': 'Yao',
-        'telefono': 625456189,
+        'telefono': '625456189',
         'domicilio': 'Av del Mediterráneo, 99',
         'email': 'ym2008@coolmail.com',
         'links': [
@@ -143,8 +143,8 @@ def upm_aos_clientes_post(body):  # noqa: E501
 
     :rtype: Cliente
     """
-    if connexion.request.is_json:
-        body = object.from_dict(connexion.request.get_json())  # noqa: E501
+    # if connexion.request.is_json:
+        # body = object.from_dict(connexion.request.get_json())  # noqa: E501
     return make_response(
         "{body} Cliente registrado exitosamente!".format(body=body), 201
     )
@@ -164,8 +164,8 @@ def upm_aos_clientes_put(body, if_match, id_cliente):  # noqa: E501
 
     :rtype: Cliente
     """
-    if connexion.request.is_json:
-        body = object.from_dict(connexion.request.get_json())  # noqa: E501
+    # if connexion.request.is_json:
+        # body = object.from_dict(connexion.request.get_json())  # noqa: E501
     return make_response(
         "{body} Cliente modificado exitosamente!".format(body=body), 201
     )
