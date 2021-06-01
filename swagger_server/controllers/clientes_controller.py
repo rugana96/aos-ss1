@@ -83,10 +83,10 @@ def upm_aos_clientes_get(id_cliente):  # noqa: E501
     """
 
     for i in example:
-        if (i["id_cliente"] == id_cliente):
-            return i;
-
-    return;
+        if (i["idCliente"] == id_cliente):
+            return i
+        else:
+            pass
 
 
 def upm_aos_clientes_get_by_nifnie(nifnie):  # noqa: E501
