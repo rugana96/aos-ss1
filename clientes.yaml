@@ -1,0 +1,468 @@
+openapi: 3.0.2
+info:
+  title: '\U0001F37D️API clientes: especificación de la API para la gestión de cliente'
+  description: '[UPM] AOS: API para la gestión de clientes'
+  license:
+    name: MIT
+    url: 'https://opensource.org/licenses/MIT'
+  version: 1.0.0
+  contact:
+    name: AOS-Grupo6
+servers:
+  - url: 'http://127.0.0.1:80'
+    description: Servidor local
+tags:
+  - name: Clientes
+    description: Gestión de clientes del taller
+paths:
+  /clientes:
+    get:
+      tags:
+        - Clientes
+      summary: Obtiene una lista de todos los clientes del taller
+      operationId: upm_aos_clientes_cget
+      responses:
+        '200':
+          description: Array de clientes
+          headers:
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  clientes:
+                    description: array de clientes
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Cliente'
+              examples:
+                clientesExamples:
+                  $ref: '#/components/examples/Clientes'
+        '404':
+          $ref: '#/components/responses/Response_404'
+    post:
+      tags:
+        - Clientes
+      summary: Registrar un cliente
+      description: Registra un nuevo cliente y lo almacena en la base de datos
+      operationId: upm_aos_clientes_post
+      requestBody:
+        $ref: '#/components/requestBodies/clienteRB'
+      responses:
+        '201':
+          description: cliente registrado
+          headers:
+            Location:
+              $ref: '#/components/headers/Location'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cliente'
+        '422':
+          $ref: '#/components/responses/Response_422'
+    options:
+      tags:
+        - Clientes
+      summary: Proporciona la lista de los métodos HTTP soportados.
+      description: Devuelve una cabecera `Allow` con la lista de métodos HTTP soportados.
+      operationId: upm_aos_clientes_coptions
+      responses:
+        '204':
+          description: 'cabecera `Allow` &lt;El cuerpo de la respuesta está vacío&gt;'
+          headers:
+            Allow:
+              $ref: '#/components/headers/Allow'
+  '/clientes/{idCliente}':
+    parameters:
+      - $ref: '#/components/parameters/idCliente'
+    get:
+      tags:
+        - Clientes
+      summary: Recupera un cliente concreto identificado por su ID.
+      description: Devuelve el cliente identificado por `idCliente`.
+      operationId: upm_aos_clientes_get
+      responses:
+        '200':
+          description: Cliente
+          headers:
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cliente'
+        '404':
+          $ref: '#/components/responses/Response_404'
+    put:
+      tags:
+        - Clientes
+      summary: Modifica los dados de un cliente cocreto.
+      description: Actualiza los datos de un cliente identificado por `idCliente`.
+      operationId: upm_aos_clientes_put
+      parameters:
+        - $ref: '#/components/parameters/ifMatchParam'
+      requestBody:
+        $ref: '#/components/requestBodies/clienteRB'
+      responses:
+        '200':
+          description: '`OK`: los datos del cliente ha sido modificado'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cliente'
+        '404':
+          $ref: '#/components/responses/Response_404'
+        '412':
+          $ref: '#/components/responses/Response_412'
+    options:
+      tags:
+        - Clientes
+      summary: Provides the list of HTTP supported methods.
+      description: Devuelve una cabecera `Allow` con la lista de métodos HTTP soportados.
+      operationId: upm_aos_clientes_id
+      responses:
+        '204':
+          description: 'cabecera `Allow` &lt;El cuerpo de la respuesta está vacío&gt;'
+          headers:
+            Allow:
+              $ref: '#/components/headers/Allow'
+              
+  '/clientes/nifnie/{nifnie}':
+    parameters:
+      - $ref: '#/components/parameters/nifnie'
+    get:
+      tags:
+        - Clientes
+      summary: Recupera un cliente concreto identificado por su NIF o NIE.
+      description: Devuelve el cliente identificado por `nif/nie`.
+      operationId: upm_aos_clientes_get_by_nif/nie
+      responses:
+        '200':
+          description: Cliente
+          headers:
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cliente'
+        '404':
+          $ref: '#/components/responses/Response_404'
+  '/clientes/nombre/{nombre}':
+    parameters:
+      - $ref: '#/components/parameters/nombre'
+    get:
+      tags:
+        - Clientes
+      summary: Obtiene una lista de aquellos clientes cuyo nombre coincida con el nombre solicitado.
+      description: Devuelve el cliente identificado por `nombre`.
+      operationId: upm_aos_clientes_get_by_nombre
+      responses:
+        '200':
+          description: Array de clientes
+          headers:
+            ETag:
+              $ref: '#/components/headers/ETag'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  clientes:
+                    description: array de clientes
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Cliente'
+              examples:
+                clientesExamples:
+                  $ref: '#/components/examples/Clientes'
+        '404':
+          $ref: '#/components/responses/Response_404'
+          
+components:
+  schemas:
+    Cliente:
+        type: object
+        description: cliente registrado
+        properties:
+          idCliente:
+            description: Id cliente
+            type: integer
+            format: int64
+          nif/nie:
+            description: Documento de identificación del cliente
+            type: string
+            pattern: >-
+              ((([X-Z])|([LM])){1}([-]?)((\d){7})([-]?)([A-Z]{1}))|((\d{8})([-]?)([A-Z]))
+          nombre:
+            description: Nombre del cliente
+            type: string
+          apellidos:
+            description: Apellidos del cliente
+            type: string
+          telefono:
+            description: Número de teléfono del cliente
+            type: string
+            pattern: (?:6[0-9]|7[1-9])[0-9]{7}$
+          domicilio:
+            description: Dirección del cliente
+            type: string
+          email:
+            description: Correo electrónico del cliente
+            type: string
+            format: email
+          links:
+              description: Enlaces de relación
+              type: object
+              properties:
+                  parent:
+                      type: object
+                      description: Enlace de relación
+                      properties:
+                          href:
+                              description: URL del enlace
+                              type: string
+                              format: url
+                              x-faker: internet.url
+                          rel:
+                              description: "Relación del documento enlazado con el actual. Contiene una lista de tipos
+                              de enlaces separados por espacio."
+                              type: string
+                              x-faker: lorem.words
+                  self:
+                      type: object
+                      description: Enlace de relación
+                      properties:
+                          href:
+                              description: URL del enlace
+                              type: string
+                              format: url
+                              x-faker: internet.url
+                          rel:
+                              description: "Relación del documento enlazado con el actual. Contiene una lista de tipos
+                              de enlaces separados por espacio."
+                              type: string
+                              x-faker: lorem.words
+        example:
+          idCliente: 2021
+          nif/nie: 28536492-F
+          nombre: José Luis
+          apellidos: Sánchez
+          telefono: 625334828
+          domicilio: 'C/Concordia, 5, 7ºa'
+          email: jlsanchez@123.com
+          links:
+              parent:
+                href: /clientes
+                rel: listaClientes
+              self:
+                href: /clientes/2021
+                rel: modificar
+    HTTP_Problem:
+        type: object
+        externalDocs:
+          url: 'https://tools.ietf.org/html/rfc7807'
+        description: Problem Details for HTTP APIs
+        properties:
+          type:
+            type: string
+            format: uri
+            description: 'A URI reference [RFC3986] that identifies the problem type'
+          title:
+            type: string
+            description: short human-readable summary of the problem type
+          status:
+            type: number
+            description: HTTP status code
+          detail:
+            type: string
+            description: >-
+              human-readable explanation specific to this occurrence of the
+              problem
+          instance:
+            type: string
+            format: uri
+            description: >-
+              A URI reference that identifies the specific occurrence of the
+              problem.  It may or may not yield further information if
+              dereferenced
+  headers:
+    ETag:
+      description: Entity Tag (identificador único proporcionado para validación de caché)
+      schema:
+        type: string
+        pattern: '[0-9a-f]*'
+        x-faker: random.uuid
+        example: 24f21ae791234aeb
+    Location:
+      description: '`URI` del nuevo recurso'
+      schema:
+        type: string
+        format: url
+        x-faker: internet.url
+        example: clientes/133
+    Allow:
+      description: Lista de métodos HTTP soportados
+      schema:
+        type: string
+      example: 'GET, PUT, OPTIONS'
+  parameters:
+    idCliente:
+      name: idCliente
+      in: path
+      description: ID del cliente
+      required: true
+      schema:
+        type: integer
+        pattern: ^\d+$
+    nifnie:
+      name: nifnie
+      in: path
+      required: true
+      description: El NIE o NIF del cliente
+      schema:
+        type: string
+        pattern: >-
+          ((([X-Z])|([LM])){1}([-]?)((\d){7})([-]?)([A-Z]{1}))|((\d{8})([-]?)([A-Z]))
+    nombre:
+      name: nombre
+      in: path
+      required: true
+      description: El nombre del cliente
+      schema:
+        type: string
+    ifMatchParam:
+      name: If-Match
+      in: header
+      description: ETag del recurso que se desea modificar
+      required: true
+      schema:
+        type: string
+        pattern: '[0-9a-f]*'
+  requestBodies:
+    clienteRB:
+      description: '`Cliente` data'
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - nif/nie
+              - nombre
+              - apellidos
+              - telefono
+              - domicilio
+              - email
+            properties:
+              nif/nie:
+                description: Documento de identificación del cliente
+                type: string
+                pattern: >-
+                  ((([X-Z])|([LM])){1}([-]?)((\d){7})([-]?)([A-Z]{1}))|((\d{8})([-]?)([A-Z]))
+              nombre:
+                description: Nombre del cliente
+                type: string
+              apellidos:
+                description: Apellidos del cliente
+                type: string
+              telefono:
+                description: Número de teléfono del cliente
+                type: string
+                pattern: (?:6[0-9]|7[1-9])[0-9]{7}$
+              domicilio:
+                description: Dirección del cliente
+                type: string
+              email:
+                description: Correo electrónico del cliente
+                type: string
+                format: email
+            example:
+              nif/nie: 28536492-F
+              nombre: José Luis
+              apellidos: Sánchez
+              telefono: 625334828
+              domicilio: 'C/Concordia, 5, 7ºa'
+              email: jlsanchez@123.com
+  responses:
+    Response_404:
+      description: '`NOT FOUND`: recurso no disponible'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/HTTP_Problem'
+          examples:
+            response-http-404:
+              $ref: '#/components/examples/response-http-404'
+    Response_412:
+      description: '`PRECONDITION FAILED`: no se cumple alguna condición previa'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/HTTP_Problem'
+          examples:
+            response-http-412:
+              $ref: '#/components/examples/response-http-412'
+    Response_422:
+      description: '`UNPROCESSABLE ENTITY`: falta algún dato necesario'
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/HTTP_Problem'
+          examples:
+            response-http-422:
+              $ref: '#/components/examples/response-http-422'
+  examples:
+    Clientes:
+      value:
+        - idCliente: 2021
+          nif/nie: 28536492-F
+          nombre: José Luis
+          apellidos: Sánchez
+          telefono: 625334828
+          domicilio: 'C/Concordia, 5, 7ºa'
+          email: jlsanchez@123.com
+          links:
+            parent:
+              href: /clientes
+              rel: listaClientes
+            self:
+              href: /clientes/2021
+              rel: modificar
+        - idCliente: 5069
+          nif/nie: X-3310872-V
+          nombre: Ming
+          apellidos: Yao
+          telefono: 625456189
+          domicilio: 'Av del Mediterráneo, 99'
+          email: ym2008@coolmail.com
+          links:
+            parent:
+              href: /clientes
+              rel: listaClientes
+            self:
+              href: /clientes/5069
+              rel: modificar
+    response-http-404:
+      value:
+        type: 'https://httpstatuses.com/404'
+        title: NOT FOUND
+        status: 404
+        detail: El recurso solicitado no está disponible...
+        instance: 'about:blank'
+    response-http-412:
+      value:
+        type: 'https://httpstatuses.com/412'
+        title: PRECONDITION FAILED
+        status: 412
+        detail: No se cumple alguna condición previa...
+        instance: 'about:blank'
+    response-http-422:
+      value:
+        type: 'https://httpstatuses.com/422'
+        title: UNPROCESSABLE ENTITY
+        status: 422
+        detail: Falta algún dato necesario...
+        instance: 'about:blank'
