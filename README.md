@@ -33,7 +33,7 @@ docker run -p 8080:8080 ss1:0.1
 			}
 
 ### Para modificar datos de un cliente identificado por su idCliente:
-		PUT http://x.x.x.x:4010/clientes/2021
+		PUT http://x.x.x.x:8080/clientes/2021
 		headers:
 			if-match = 24f21ae791234aeb
 		Body:
