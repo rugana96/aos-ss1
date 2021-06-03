@@ -9,7 +9,7 @@ subsistema de gestión de clientes de un taller.
 docker build -t ss1:0.1 .
 ```
 
-3. Ejecutar la imagen creando un contenedor:
+2. Ejecutar la imagen creando un contenedor:
 ```
 docker run -p 8080:8080 ss1:0.1
 ```
