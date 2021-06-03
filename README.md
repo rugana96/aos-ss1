@@ -32,17 +32,19 @@ docker run -p 8080:8080 ss1:0.1
 				"email": "yszaos@xmail.org"
 			}
 
-### Para registrar un nuevo cliente:
-		POST http://x.x.x.x:8080/clientes
+### Para modificar datos de un cliente identificado por su idCliente:
+		PUT http://x.x.x.x:4010/clientes/2021
+		headers:
+			if-match = 24f21ae791234aeb
 		Body:
 		{
-				"nif/nie": "X9172354-N",
-				"idCliente": 452,
-				"nombre": "Yunsong",
-				"apellidos": "Zhang",
-				"domicilio": " Av Gran Vía 100",
-				"telefono": "625334697",
-				"email": "yszaos@xmail.org"
+				"nif/nie": "44917190V",
+				"idCliente": 2021,
+				"nombre": "Aroa",
+				"apellidos": "Luque",
+				"domicilio": "C/Amparo, 5",
+				"telefono": "687496381",
+				"email": "alaos@xmail.org"
 			}
 
 ### Para obtener datos de un cliente identificado por su idCliente
