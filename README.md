@@ -1,6 +1,6 @@
 # AOS-PR2
  
-subsistema de gestión de clientes del taller.
+subsistema de gestión de clientes de un taller.
 
 # Instalación y uso:
 
