@@ -150,7 +150,7 @@ def upm_aos_clientes_post(body):  # noqa: E501
     )
 
 
-def upm_aos_clientes_put(body, if_match, id_cliente):  # noqa: E501
+def upm_aos_clientes_put(body, id_cliente):  # noqa: E501
     """Modifica los dados de un cliente cocreto.
 
     Actualiza los datos de un cliente identificado por &#x60;idCliente&#x60;. # noqa: E501
